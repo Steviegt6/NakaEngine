@@ -51,8 +51,6 @@ namespace NakaEngine.Core.Loaders
             {
                 Assets.Add(key, texture);
             }
-
-            Console.WriteLine($"Texture loaded at: {key}");
         }
     }
 }
