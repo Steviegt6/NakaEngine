@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NakaEngine.Core.Systems.Entities.Components
 {
-    public abstract class ComponentSystem<T> where T : Component
+    public abstract class ComponentSystem<T> : GameSystem where T : Component
     {
         public static List<T> Components = new();
 
@@ -15,7 +15,7 @@ namespace NakaEngine.Core.Systems.Entities.Components
             return component;
         }
 
-        public static void UpdateComponents(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             foreach (T component in Components)
             {
@@ -23,7 +23,7 @@ namespace NakaEngine.Core.Systems.Entities.Components
             }
         }
 
-        public static void DrawComponents(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             foreach (T component in Components)
             {

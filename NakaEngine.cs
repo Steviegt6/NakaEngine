@@ -12,12 +12,12 @@ using System.Reflection;
 namespace NakaEngine
 {
     public sealed class NakaEngine : Game
-	{
-        public static Assembly Assembly => Assembly.GetExecutingAssembly();
+    {
+        public Assembly Assembly => Assembly.GetExecutingAssembly();
 
-		public static NakaEngine Instance;
+        public static NakaEngine Instance;
 
-		public GraphicsDeviceManager Graphics;
+        public GraphicsDeviceManager Graphics;
 
 		public SpriteBatch SpriteBatch;
 
@@ -54,9 +54,7 @@ namespace NakaEngine
 
         protected override void Update(GameTime gameTime)
         {
-            TransformSystem.UpdateComponents(gameTime);
-            SpriteSystem.UpdateComponents(gameTime);
-            BehaviourSystem.UpdateComponents(gameTime);
+            GameSystemLoader.UpdateSystems(gameTime);
 
             base.Update(gameTime);
         }
@@ -67,9 +65,7 @@ namespace NakaEngine
 
             SpriteBatch.Begin();
 
-            TransformSystem.DrawComponents(SpriteBatch);
-            SpriteSystem.DrawComponents(SpriteBatch);
-            BehaviourSystem.DrawComponents(SpriteBatch);
+            GameSystemLoader.DrawSystems(SpriteBatch);
             
             SpriteBatch.End();
 
@@ -95,8 +91,6 @@ namespace NakaEngine
             foreach (ILoadable loadable in loadCache)
             {
                 loadable.Load();
-
-                Console.WriteLine($"Loadable loaded at: {loadable.GetType().FullName}");
             }
         }
 

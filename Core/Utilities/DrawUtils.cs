@@ -24,7 +24,36 @@ namespace NakaEngine.Core.Utilities
 
         public static Vector3 ToVector3(this Vector2 vector) => new(vector.X, vector.Y, 0f); 
         
+        public static bool WithinRange(this Vector2 vector, Vector2 other, float distance) => Vector2.DistanceSquared(vector, other) < distance * distance;
+
+        public static float RotationTo(this Vector2 vector, Vector2 other) => MathF.Atan2(vector.X - other.X, vector.Y - other.Y);
+
+        public static float RotationFrom(this Vector2 vector, Vector2 other) => MathF.Atan2(other.X - vector.X, other.Y - vector.Y); 
+
         public static float ToRotation(this Vector2 vector) => (float)Math.Atan2(vector.Y, vector.X);
+
+        public static Vector2 RotatedBy(this Vector2 vector, float degrees)  
+        {
+            float sin = MathF.Sin(degrees);
+            float cos = MathF.Cos(degrees);
+
+            return new Vector2
+            (
+                vector.X * cos - vector.Y * sin, 
+                vector.X * sin + vector.Y * cos
+            );
+        }
+
+        public static void RotatedBy(Vector2[] vectors, float degrees)
+        {
+            float sin = MathF.Sin(degrees);
+            float cos = MathF.Cos(degrees); 
+
+            for (int i = 0; i < vectors.Length; i++)
+            {
+                vectors[i] = new Vector2(vectors[i].X * cos - vectors[i].Y * sin, vectors[i].X * sin + vectors[i].Y * cos);
+            }
+        }
 
         public static void DrawLine(this SpriteBatch spriteBatch, Vector2 start, Vector2 end, Color color, Texture2D texture, int width = 2)
         {

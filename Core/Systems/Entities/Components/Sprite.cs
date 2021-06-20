@@ -4,6 +4,15 @@ using NakaEngine.Core.Utilities;
 
 namespace NakaEngine.Core.Systems.Entities.Components
 {
+     /*==================================================
+     * TODO
+     *
+     * - Layering
+     *      - Possible idea: SpriteSortMode.FrontToBack
+     *      
+     * - Animations
+     ==================================================*/
+
     public class Sprite : Component
     {
         public Texture2D Texture;
@@ -26,16 +35,7 @@ namespace NakaEngine.Core.Systems.Entities.Components
 
         public override void Draw(SpriteBatch spriteBatch) 
         {
-            /*==================================================
-             * TODO
-             *
-             * - Layering
-             *      - Possible idea: SpriteSortMode.FrontToBack
-             *      
-             * - Animations
-             ==================================================*/
-
-            spriteBatch.Draw(Texture, Transform.Position, Frame, Color, Transform.Rotation, Texture.GetCenter(), Transform.Scale, Effects, 0f);
+            spriteBatch.Draw(Texture, GameObject.Transform.Position, Frame, Color, GameObject.Transform.Rotation, Texture.GetCenter(), GameObject.Transform.Scale, Effects, 0f);
         }
     }
 }

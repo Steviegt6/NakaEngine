@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace NakaEngine.Core.Systems.Entities.Components
+namespace NakaEngine.Core.Systems
 {
-    public class Component
+    public abstract class GameSystem
     {
-        public GameObject GameObject;
+        public GameSystem() => Initialize();
+
+        public virtual void Initialize() { }
 
         public virtual void Update(GameTime gameTime) { }
 
