@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace NakaEngine.Core.Systems.Entities.Components
+namespace NakaEngine.Systems.Entities.Components
 {
     public class Behaviour : Component
     {
@@ -11,8 +11,6 @@ namespace NakaEngine.Core.Systems.Entities.Components
             Active = active;
 
             Initialize();
-
-            BehaviourSystem.AddComponent(this);
         }
 
         public override void Update(GameTime gameTime)

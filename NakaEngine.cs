@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NakaEngine.Core.Interfaces;
-using NakaEngine.Core.Loaders;
-using NakaEngine.Core.Systems.Entities;
-using NakaEngine.Core.Systems.Entities.Components;
+using NakaEngine.Interfaces;
+using NakaEngine.Loaders;
+using NakaEngine.Systems.Entities;
+using NakaEngine.Systems.Entities.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +13,25 @@ namespace NakaEngine
 {
     public sealed class NakaEngine : Game
     {
-        public Assembly Assembly => Assembly.GetExecutingAssembly();
+        public static Assembly Assembly => Assembly.GetExecutingAssembly();
 
-        public static NakaEngine Instance;
+        public static NakaEngine Instance
+        {
+            get;
+            private set;
+        }
 
-        public GraphicsDeviceManager Graphics;
+        public GraphicsDeviceManager Graphics
+        {
+            get;
+            private set;
+        }
 
-		public SpriteBatch SpriteBatch;
+		public SpriteBatch SpriteBatch
+        {
+            get;
+            private set;
+        }
 
         private List<ILoadable> loadCache;
 
@@ -124,6 +136,8 @@ namespace NakaEngine
     {
         private float progress;
 
+        private Vector2 velocity;
+
         public override void Update(GameTime gametime)
         {
             progress++;
@@ -131,8 +145,10 @@ namespace NakaEngine
             float cos = MathF.Cos(progress / 20f);
             float sin = MathF.Sin(progress / 20f);
 
-            Transform.Position.X += cos;
-            Transform.Position.Y += sin;
+            velocity = new Vector2(cos, sin);
+            GameObject.Transform.Position += velocity;
+
+            GameObject.Transform.Rotation = velocity.X * 0.05f;
         }
     }
 }

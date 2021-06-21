@@ -1,4 +1,4 @@
-﻿namespace NakaEngine.Core.Utilities
+﻿namespace NakaEngine.Utilities
 {
     public static class MathUtils
     {

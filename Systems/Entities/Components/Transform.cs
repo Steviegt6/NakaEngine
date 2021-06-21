@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace NakaEngine.Core.Systems.Entities.Components
+namespace NakaEngine.Systems.Entities.Components
 {
     public class Transform : Component
     {
@@ -15,8 +15,6 @@ namespace NakaEngine.Core.Systems.Entities.Components
             Position = position;
             Scale = scale ?? Vector2.One;
             Rotation = rotation;
-
-            TransformSystem.AddComponent(this);
         }
     }
 }

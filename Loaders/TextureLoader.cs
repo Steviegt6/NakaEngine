@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NakaEngine.Core.Interfaces;
-using System;
+using NakaEngine.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace NakaEngine.Core.Loaders
+namespace NakaEngine.Loaders
 {
     public class TextureLoader : AssetLoader<Texture2D>, ILoadable
     {
@@ -34,11 +33,7 @@ namespace NakaEngine.Core.Loaders
 
             foreach (string file in files.Where(x => x.EndsWith(FileExtension)))
             {
-                string key = file[(file.IndexOf(Path.DirectorySeparatorChar) + 1)..];
-                key = Path.ChangeExtension(key, null);
-                key = key.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-
-                LoadTexture(file, key);
+                LoadTexture(file, GetFileKey(file));
             }
         }
 

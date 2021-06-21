@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NakaEngine.Core.Interfaces;
-using NakaEngine.Core.Systems;
-using NakaEngine.Core.Systems.Singletons;
+using NakaEngine.Systems;
+using NakaEngine.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace NakaEngine.Core.Loaders
+namespace NakaEngine.Loaders
 {
     public sealed class GameSystemLoader : ILoadable
     {
@@ -14,7 +13,7 @@ namespace NakaEngine.Core.Loaders
 
         public void Load()
         {
-            foreach (Type type in NakaEngine.Instance.Assembly.GetTypes())
+            foreach (Type type in NakaEngine.Assembly.GetTypes())
             {
                 if (!type.IsAbstract && type.IsSubclassOf(typeof(GameSystem)))
                 {

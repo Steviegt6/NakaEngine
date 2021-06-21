@@ -1,16 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace NakaEngine.Core.Systems
+namespace NakaEngine.Systems.Entities.Components
 {
-    public abstract class GameSystem
+    public class Component
     {
-        public GameSystem() => Initialize();
-
-        public virtual void Initialize() { }
+        public GameObject GameObject;
 
         public virtual void Update(GameTime gameTime) { }
 
         public virtual void Draw(SpriteBatch spriteBatch) { }
+
+        public Component() => ComponentSystem.AddComponent(this);
     }
 }

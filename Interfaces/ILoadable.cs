@@ -1,4 +1,4 @@
-﻿namespace NakaEngine.Core.Interfaces
+﻿namespace NakaEngine.Interfaces
 {
     public interface ILoadable
     {

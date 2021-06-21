@@ -1,8 +1,8 @@
-﻿using NakaEngine.Core.Systems.Entities.Components;
+﻿using NakaEngine.Systems.Entities.Components;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NakaEngine.Core.Systems.Entities
+namespace NakaEngine.Systems.Entities
 {
     public class GameObject
     {
