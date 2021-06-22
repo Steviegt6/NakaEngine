@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="xcopy /e /y /i /r &quot;$(ProjectDir)Assets&quot;  &quot;$(ProjectDir)$(OutDir)Assets&quot;" />
+    <Exec Command="xcopy /e /y /i /r &quot;$(ProjectDir)Assets&quot; &quot;$(ProjectDir)$(OutDir)Assets&quot;" />
   </Target>
 
 </Project>

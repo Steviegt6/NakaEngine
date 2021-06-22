@@ -12,7 +12,8 @@ namespace NakaEngine
 			DllManager.AttachResolver(Assembly.GetExecutingAssembly());
 			DllManager.AttachResolver(Assembly.GetAssembly(typeof(Game)));
 
-			new NakaEngine().Run();
-		}
+            using var engine = new NakaEngine();
+            engine.Run();
+        }
 	}
 }

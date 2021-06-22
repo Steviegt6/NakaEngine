@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NakaEngine.Graphics;
 using NakaEngine.Interfaces;
-using NakaEngine.Loaders;
-using NakaEngine.Systems.Entities;
-using NakaEngine.Systems.Entities.Components;
+using NakaEngine.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace NakaEngine
@@ -42,6 +40,8 @@ namespace NakaEngine
 			Graphics = new GraphicsDeviceManager(Instance);
 
 			Content.RootDirectory = "Assets";
+
+            IsMouseVisible = true;
 		} 
 
         protected override void LoadContent()
@@ -49,8 +49,6 @@ namespace NakaEngine
 			SpriteBatch = new SpriteBatch(Graphics.GraphicsDevice);
 
             LoadCache();
-
-            new TestEntity();
 
             base.LoadContent();
 		}
@@ -64,22 +62,9 @@ namespace NakaEngine
             base.UnloadContent();
         }
 
-        protected override void Update(GameTime gameTime)
-        {
-            GameSystemLoader.UpdateSystems(gameTime);
-
-            base.Update(gameTime);
-        }
-
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
-
-            SpriteBatch.Begin();
-
-            GameSystemLoader.DrawSystems(SpriteBatch);
-            
-            SpriteBatch.End();
+            RenderSystem.DrawLayers(SpriteBatch);
 
             base.Draw(gameTime); 
         }
@@ -90,19 +75,13 @@ namespace NakaEngine
 
             foreach (Type type in Assembly.GetTypes()) 
             {
-                if (!type.IsAbstract && type.GetInterfaces().Contains(typeof(ILoadable)))
+                if (!type.IsAbstract && type.HasEmptyConstructor() && type.HasInterface(typeof(ILoadable)))
                 { 
                     var loadable = Activator.CreateInstance(type) as ILoadable;
+                    loadable.Load();
 
                     loadCache.Add(loadable);
                 }
-            }
-
-            loadCache.Sort((x, y) => x.Priority.CompareTo(y.Priority));
-
-            foreach (ILoadable loadable in loadCache)
-            {
-                loadable.Load();
             }
         }
 
@@ -114,41 +93,6 @@ namespace NakaEngine
             }
 
             loadCache = null;
-        }
-    }
-
-    public class TestEntity : Entity
-    {
-        public TestEntity()
-        {
-            Transform transform = new(new Vector2(200));
-            AddComponent(transform);
-
-            Sprite sprite = new(TextureLoader.GetAsset("Miscellaneous/MissingTexture"));
-            AddComponent(sprite);
-
-            TestEntityBehaviour behaviour = new();
-            AddComponent(behaviour);
-        }
-    }
-
-    public class TestEntityBehaviour : Behaviour 
-    {
-        private float progress;
-
-        private Vector2 velocity;
-
-        public override void Update(GameTime gametime)
-        {
-            progress++;
-
-            float cos = MathF.Cos(progress / 20f);
-            float sin = MathF.Sin(progress / 20f);
-
-            velocity = new Vector2(cos, sin);
-            GameObject.Transform.Position += velocity;
-
-            GameObject.Transform.Rotation = velocity.X * 0.05f;
         }
     }
 }

@@ -13,15 +13,15 @@ namespace NakaEngine
 		{
 			string osString;
 
-			if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) 
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) 
 			{
 				osString = "windows";
 			} 
-			else if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) 
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) 
 			{
 				osString = "osx";
 			} 
-			else if(RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD)) 
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD)) 
 			{
 				osString = "freebsd";
 			} 

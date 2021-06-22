@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NakaEngine.Interfaces;
-using System.Collections.Generic;
+using NakaEngine.Utilities.Extensions;
 using System.IO;
 using System.Linq;
 
@@ -13,11 +13,7 @@ namespace NakaEngine.Loaders
 
         public void Load()
         {
-            Assets = new Dictionary<string, Texture2D>();
-
-            LoadAllTextures(NakaEngine.Instance.Content.RootDirectory);
-
-            string[] subDirectories = Directory.GetDirectories(NakaEngine.Instance.Content.RootDirectory);
+            string[] subDirectories = NakaEngine.Instance.Content.RootDirectory.GetAllDirectories();
 
             foreach (string subDirectory in subDirectories)
             {
@@ -27,11 +23,11 @@ namespace NakaEngine.Loaders
 
         public void Unload() => Assets.Clear();
 
-        internal void LoadAllTextures(string path)
+        internal void LoadAllTextures(string path) 
         {
             string[] files = Directory.GetFiles(path);
 
-            foreach (string file in files.Where(x => x.EndsWith(FileExtension)))
+            foreach (string file in files.Where(name => name.EndsWith(FileExtension)))
             {
                 LoadTexture(file, GetFileKey(file));
             }
@@ -39,13 +35,15 @@ namespace NakaEngine.Loaders
 
         internal static void LoadTexture(string path, string key)
         {
-            Stream stream = TitleContainer.OpenStream(path);
-            Texture2D texture = Texture2D.FromStream(NakaEngine.Instance.GraphicsDevice, stream);
+            Stream stream = TitleContainer.OpenStream(path); 
+            Texture2D texture = Texture2D.FromStream(NakaEngine.Instance.GraphicsDevice, stream); 
 
             if (!Assets.ContainsKey(key))
             {
                 Assets.Add(key, texture);
             }
         }
+
+        public static Texture2D GetTexture(string path) => Assets["Textures/" + path];
     }
 }

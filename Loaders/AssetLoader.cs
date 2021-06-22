@@ -7,13 +7,12 @@ namespace NakaEngine.Loaders
     {
         public virtual string FileExtension => string.Empty;
 
-        public static Dictionary<string, T> Assets;
+        public static Dictionary<string, T> Assets = new();
 
-        public static T GetAsset(string path) => Assets[path];
-
-        protected string GetFileKey(string path)
+        public string GetFileKey(string path)
         {
             string key = path[(path.IndexOf(Path.DirectorySeparatorChar) + 1)..];
+
             key = Path.ChangeExtension(key, null);
             key = key.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
