@@ -31,6 +31,12 @@ namespace NakaEngine
             private set;
         }
 
+        public Camera MainCamera
+        {
+            get;
+            private set;
+        }
+
         private List<ILoadable> loadCache = new();
 
         public NakaEngine() : base()
@@ -47,11 +53,10 @@ namespace NakaEngine
         protected override void LoadContent()
 		{
 			SpriteBatch = new SpriteBatch(Graphics.GraphicsDevice);
+            MainCamera = new Camera();
 
-            LoadCache();
-
-            
-
+            LoadCache();    
+      
             base.LoadContent();
 		}
 
@@ -64,10 +69,17 @@ namespace NakaEngine
             base.UnloadContent();
         }
 
+        protected override void Update(GameTime gameTime)
+        {
+            Input.Update();
+
+            base.Update(gameTime);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             RenderSystem.Render(SpriteBatch);
-
+            
             base.Draw(gameTime); 
         }
 

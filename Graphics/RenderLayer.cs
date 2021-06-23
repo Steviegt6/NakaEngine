@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NakaEngine.Loaders;
-using NakaEngine.Utilities;
-using NakaEngine.Utilities.Extensions;
+using System.Collections.Generic;
 
 namespace NakaEngine.Graphics
 {
@@ -44,6 +42,12 @@ namespace NakaEngine.Graphics
             private set;
         }
 
+        public List<SpriteInfo> Info
+        {
+            get;
+            private set;
+        } = new();
+
         public RenderLayer(string name, int width, int height)
         {
             Name = name;
@@ -56,15 +60,32 @@ namespace NakaEngine.Graphics
 
             RenderTarget = new RenderTarget2D(NakaEngine.Instance.GraphicsDevice, width, height);
         }
-        
-        public void Draw(SpriteBatch spriteBatch)
+
+        public SpriteInfo AddInfo(Texture2D texture, Vector2 position, Rectangle? sourceRectangle = null, Color? color = null, float rotation = 0f, Vector2 origin = default, Vector2? scale = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
         {
-            Texture2D texture = TextureLoader.GetTexture("Miscellaneous/MissingTexture");
+            Color infoColor = color ?? Color.White;
+            scale ??= Vector2.One;
 
-            Vector2 offset = new(Name == "Tiles" ? 20f : 40f, 0f);
-            Vector2 position = DrawUtils.ScreenCenter - texture.GetCenter();
+            SpriteInfo info = new(texture, position, sourceRectangle, infoColor, rotation, origin, scale ?? Vector2.One, effects, layerDepth);
 
-            spriteBatch.Draw(texture, position + offset, Color.White);
+            Info.Add(info);
+
+            return info; 
+        }
+
+        public void Draw(GraphicsDevice device, SpriteBatch spriteBatch)
+        {
+            device.SetRenderTarget(RenderTarget);
+            device.Clear(Color.Transparent);
+            
+            spriteBatch.Begin(SpriteSortMode, BlendState, default, default, default, default, NakaEngine.Instance.MainCamera.Transform);
+
+            foreach (SpriteInfo info in Info)
+            {
+                spriteBatch.Draw(info.Texture, info.Position, info.SourceRectangle, info.Color, info.Rotation, info.Origin, info.Scale, info.Effects, info.LayerDepth);
+            }
+
+            spriteBatch.End();
         }
     }
 }

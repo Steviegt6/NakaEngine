@@ -17,7 +17,7 @@ namespace NakaEngine.Graphics
 
         public void Load()
         {
-            Layers.Add(new RenderLayer("Tiles", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
+            Layers.Add(new RenderLayer("Backgrounds", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
             Layers.Add(new RenderLayer("Entities", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
         }
 
@@ -25,38 +25,21 @@ namespace NakaEngine.Graphics
 
         public static void Render(SpriteBatch spriteBatch)
         {
-            GraphicsDevice device = NakaEngine.Instance.GraphicsDevice;
-
-            RenderTargets(device, spriteBatch);
-        }
-
-        private static void RenderTargets(GraphicsDevice device, SpriteBatch spriteBatch)
-        { 
-            foreach (RenderLayer layer in Layers)
+            foreach (RenderLayer layer in Layers) 
             {
-                RenderLayers(device, spriteBatch, layer);
+                layer.Draw(spriteBatch.GraphicsDevice, spriteBatch);
+            }
 
+            spriteBatch.GraphicsDevice.SetRenderTarget(null);
+
+            foreach (RenderLayer layer in Layers) 
+            {
                 spriteBatch.Begin();
 
-                spriteBatch.Draw(layer.RenderTarget, DrawUtils.ScreenRectangle, Color.White);
+                spriteBatch.Draw(layer.RenderTarget, Vector2.Zero, Color.White);
 
                 spriteBatch.End();
             }
-        }
-
-        private static void RenderLayers(GraphicsDevice device, SpriteBatch spriteBatch, RenderLayer layer)
-        {
-            device.SetRenderTarget(layer.RenderTarget);
-            device.Clear(Color.Transparent);
-
-            spriteBatch.Begin(layer.SpriteSortMode, layer.BlendState);
-
-            layer.Draw(spriteBatch);
-
-            spriteBatch.End();
-
-            device.SetRenderTarget(null);
-            device.Clear(Color.Transparent);
         }
 
         public static RenderLayer GetLayer(string name) => Layers.FirstOrDefault(layer => layer.Name == name);
