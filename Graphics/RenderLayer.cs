@@ -6,7 +6,7 @@ using NakaEngine.Utilities.Extensions;
 
 namespace NakaEngine.Graphics
 {
-    public class RenderLayer
+    public sealed class RenderLayer
     {
         public string Name
         {
@@ -57,6 +57,14 @@ namespace NakaEngine.Graphics
             RenderTarget = new RenderTarget2D(NakaEngine.Instance.GraphicsDevice, width, height);
         }
         
-        public void Draw(SpriteBatch spriteBatch) { }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            Texture2D texture = TextureLoader.GetTexture("Miscellaneous/MissingTexture");
+
+            Vector2 offset = new(Name == "Tiles" ? 20f : 40f, 0f);
+            Vector2 position = DrawUtils.ScreenCenter - texture.GetCenter();
+
+            spriteBatch.Draw(texture, position + offset, Color.White);
+        }
     }
 }

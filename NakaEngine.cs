@@ -31,7 +31,7 @@ namespace NakaEngine
             private set;
         }
 
-        private List<ILoadable> loadCache;
+        private List<ILoadable> loadCache = new();
 
         public NakaEngine() : base()
 		{
@@ -50,6 +50,8 @@ namespace NakaEngine
 
             LoadCache();
 
+            
+
             base.LoadContent();
 		}
 
@@ -64,15 +66,13 @@ namespace NakaEngine
 
         protected override void Draw(GameTime gameTime)
         {
-            RenderSystem.DrawLayers(SpriteBatch);
+            RenderSystem.Render(SpriteBatch);
 
             base.Draw(gameTime); 
         }
 
         private void LoadCache()
         {
-            loadCache = new List<ILoadable>();
-
             foreach (Type type in Assembly.GetTypes()) 
             {
                 if (!type.IsAbstract && type.HasEmptyConstructor() && type.HasInterface(typeof(ILoadable)))

@@ -7,7 +7,11 @@ namespace NakaEngine.Loaders
     {
         public virtual string FileExtension => string.Empty;
 
-        public static Dictionary<string, T> Assets = new();
+        public static Dictionary<string, T> Assets
+        {
+            get;
+            protected set;
+        } = new();
 
         public string GetFileKey(string path)
         {
