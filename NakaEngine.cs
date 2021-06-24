@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NakaEngine.Entities;
 using NakaEngine.Graphics;
 using NakaEngine.Interfaces;
 using NakaEngine.Utilities.Extensions; 
@@ -80,6 +81,7 @@ namespace NakaEngine
         protected override void Update(GameTime gameTime)
         {
             Input.Update();
+            ComponentSystem.Update(gameTime);
 
             base.Update(gameTime);
         }
