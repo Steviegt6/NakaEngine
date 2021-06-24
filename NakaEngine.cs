@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using NakaEngine.Graphics;
 using NakaEngine.Interfaces;
-using NakaEngine.Utilities.Extensions;
+using NakaEngine.Utilities.Extensions; 
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -11,7 +11,13 @@ namespace NakaEngine
 {
     public sealed class NakaEngine : Game
     {
-        public static Assembly Assembly => Assembly.GetExecutingAssembly();
+        /* Things we could do:
+         * 
+         * - Rework asset loaders to a more compact and non-bloated version.
+         * - Scenes and Entities
+         * - Shaders, but shouldn't matter too much now (Even because it depends on the asset loader rework)
+         * - Sounds (same as shaders)
+         */ 
 
         public static NakaEngine Instance
         {
@@ -36,6 +42,8 @@ namespace NakaEngine
             get;
             private set;
         }
+
+        public static Assembly Assembly => Assembly.GetExecutingAssembly();
 
         private List<ILoadable> loadCache = new();
 
@@ -79,7 +87,7 @@ namespace NakaEngine
         protected override void Draw(GameTime gameTime)
         {
             RenderSystem.Render(SpriteBatch);
-            
+
             base.Draw(gameTime); 
         }
 
