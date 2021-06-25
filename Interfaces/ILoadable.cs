@@ -2,8 +2,8 @@
 {
     public interface ILoadable
     {
-        public void Load();
+        void Load();
 
-        public void Unload();
+        void Unload();
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace NakaEngine.Graphics
 {
-    public readonly struct SpriteInfo
+    public readonly struct RenderInfo
     {
         public readonly Texture2D Texture;
 
@@ -21,7 +21,7 @@ namespace NakaEngine.Graphics
         public readonly float LayerDepth;
 
 
-        public SpriteInfo(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
+        public RenderInfo(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
         {
             Texture = texture;
             Position = position;

@@ -42,7 +42,7 @@ namespace NakaEngine.Graphics
             private set;
         }
 
-        public List<SpriteInfo> Info
+        public List<RenderInfo> Info
         {
             get;
             private set;
@@ -61,16 +61,23 @@ namespace NakaEngine.Graphics
             RenderTarget = new RenderTarget2D(NakaEngine.Instance.GraphicsDevice, width, height);
         }
 
-        public SpriteInfo AddInfo(Texture2D texture, Vector2 position, Rectangle? sourceRectangle = null, Color? color = null, float rotation = 0f, Vector2 origin = default, Vector2? scale = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
+        public RenderInfo AddInfo(Texture2D texture, Vector2 position, Rectangle? sourceRectangle = null, Color? color = null, float rotation = 0f, Vector2 origin = default, Vector2? scale = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
         {
             Color infoColor = color ?? Color.White;
             scale ??= Vector2.One;
 
-            SpriteInfo info = new(texture, position, sourceRectangle, infoColor, rotation, origin, scale ?? Vector2.One, effects, layerDepth);
+            RenderInfo info = new(texture, position, sourceRectangle, infoColor, rotation, origin, scale ?? Vector2.One, effects, layerDepth);
 
             Info.Add(info);
 
             return info; 
+        }
+
+        public RenderInfo AddInfo(RenderInfo info)
+        {
+            Info.Add(info);
+
+            return info;
         }
 
         public void Draw(GraphicsDevice device, SpriteBatch spriteBatch)
@@ -80,12 +87,21 @@ namespace NakaEngine.Graphics
             
             spriteBatch.Begin(SpriteSortMode, BlendState, default, default, default, default, NakaEngine.Instance.MainCamera.Transform);
 
-            foreach (SpriteInfo info in Info)
+            foreach (RenderInfo info in Info)
             {
                 spriteBatch.Draw(info.Texture, info.Position, info.SourceRectangle, info.Color, info.Rotation, info.Origin, info.Scale, info.Effects, info.LayerDepth);
             }
 
             spriteBatch.End();
+
+            Info.Clear();
+        }
+
+        public void ResetRenderTarget()
+        {
+            RenderTarget?.Dispose();
+
+            RenderTarget = new RenderTarget2D(NakaEngine.Instance.GraphicsDevice, Width, Height);
         }
     }
 }

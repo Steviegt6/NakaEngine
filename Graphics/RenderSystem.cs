@@ -23,7 +23,7 @@ namespace NakaEngine.Graphics
 
         public void Unload() => Layers.Clear();
 
-        public static void Render(SpriteBatch spriteBatch)
+        internal static void Render(SpriteBatch spriteBatch)
         {
             foreach (RenderLayer layer in Layers) 
             {
@@ -39,6 +39,14 @@ namespace NakaEngine.Graphics
                 spriteBatch.Draw(layer.RenderTarget, Vector2.Zero, Color.White);
 
                 spriteBatch.End();
+            }
+        }
+
+        internal static void Reset()
+        {
+            foreach (RenderLayer layer in Layers)
+            {
+                layer.ResetRenderTarget();
             }
         }
 

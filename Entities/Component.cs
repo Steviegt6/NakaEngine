@@ -2,6 +2,7 @@
 
 namespace NakaEngine.Entities
 {
+    ///<summary>Stores info for a GameObject.</summary>
     public class Component
     {
         public bool Active
@@ -10,6 +11,7 @@ namespace NakaEngine.Entities
             set;
         }
 
+        /// <summary>The GameObject this component is attatched to.</summary>
         public GameObject GameObject
         {
             get;

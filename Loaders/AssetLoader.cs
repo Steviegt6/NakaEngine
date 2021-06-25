@@ -1,19 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using NakaEngine.Utilities.Extensions;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace NakaEngine.Loaders
 {
-    public abstract class AssetLoader<T> where T : class
+    public sealed class AssetLoader<T> where T : class
     {
-        public virtual string FileExtension => string.Empty;
+        private static Dictionary<string, T> assets = new();
 
-        public static Dictionary<string, T> Assets
+        private readonly string[] fileExtensions;
+
+        public AssetLoader(params string[] fileExtensions) => this.fileExtensions = fileExtensions;
+
+        public void Load(string path)
         {
-            get;
-            protected set;
-        } = new();
+            LoadAssets(path);
 
-        public string GetFileKey(string path)
+            string[] subDirectories = path.GetAllDirectories();
+            
+            foreach (string subDirectory in subDirectories)
+            {
+                LoadAssets(subDirectory);
+            }
+        }
+
+        private void LoadAssets(string path)
+        {
+            string[] files = Directory.GetFiles(path);
+
+            foreach (string file in files.Where(file => fileExtensions.Any(element => file.EndsWith(element))))
+            {
+                string key = GetFileKey(file);
+
+                T asset = NakaEngine.Instance.Content.Load<T>(key);
+
+                if (!assets.ContainsKey(key))
+                {
+                    assets.Add(key, asset);
+
+                    Console.WriteLine($"Asset loaded with key: {key} with type: {typeof(T).Name}");
+                }
+            }
+        }
+
+        public static T GetAsset(string path) => assets[path];
+
+        private static string GetFileKey(string path)
         {
             string key = path[(path.IndexOf(Path.DirectorySeparatorChar) + 1)..];
 

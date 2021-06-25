@@ -12,7 +12,7 @@ namespace NakaEngine.Entities
             private set;
         } = new();
 
-        public static void Update(GameTime gameTime)
+        internal static void Update(GameTime gameTime)
         {
             foreach (Component component in Components.Where(component => component.Active))
             {

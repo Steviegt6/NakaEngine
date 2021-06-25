@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace NakaEngine
+namespace NakaEngine.Input
 {
-    public static class Input
+    public static class InputSystem 
     {
         public static KeyboardState CurrentKeyboardState;
 
@@ -13,9 +13,11 @@ namespace NakaEngine
 
         public static MouseState OldMouseState;
 
+        public static Vector2 OldMousePosition;
+
         public static Vector2 MousePosition;
 
-        public static void Update()
+        internal static void Update()
         {
             OldKeyboardState = CurrentKeyboardState;
             CurrentKeyboardState = Keyboard.GetState();
@@ -23,6 +25,7 @@ namespace NakaEngine
             OldMouseState = CurrentMouseState;
             CurrentMouseState = Mouse.GetState();
 
+            OldMousePosition = MousePosition;
             MousePosition = new Vector2(CurrentMouseState.X, CurrentMouseState.Y);
         }
 
