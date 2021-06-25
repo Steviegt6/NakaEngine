@@ -9,12 +9,12 @@ namespace NakaEngine.Graphics
 {
     public sealed class RenderSystem : ILoadable
     {
-        private static List<RenderLayer> layers = new();
+        private static readonly List<RenderLayer> layers = new();
 
         public void Load()
         {
-            layers.Add(new RenderLayer("Backgrounds", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
             layers.Add(new RenderLayer("Entities", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
+            layers.Add(new RenderLayer("UserInterface", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
         }
 
         public void Unload() => layers.Clear();

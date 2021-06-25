@@ -4,7 +4,7 @@ using System;
 
 namespace NakaEngine.Input
 {
-    public static class KeybindSystem
+    public class KeybindSystem
     {
         private static List<Keybind> keybinds = new();
 

@@ -36,7 +36,7 @@ namespace NakaEngine
 
         public Music CurrentMusic;
 
-        [ThreadStatic] 
+        [ThreadStatic]
         private static Random _random;
 
         public static Random Random => _random ??= new();
@@ -44,15 +44,15 @@ namespace NakaEngine
         public static Assembly Assembly => Assembly.GetExecutingAssembly();
 
         public NakaEngine() : base()
-		{
-			Instance = this;
+        {
+            Instance = this;
 
             Graphics = new GraphicsDeviceManager(Instance);
 
             Content.RootDirectory = "Assets";
 
             IsMouseVisible = true;
-		}
+        }
 
         protected override void LoadContent()
         {
@@ -62,9 +62,10 @@ namespace NakaEngine
             MainCamera = new();
 
             CurrentMusic = new("Assets/Sounds/Music/Placeholder.ogg");
+            CurrentMusic.SetVolume(0.5f);
 
             LoadAssets();
-		}
+        }
 
         protected override void UnloadContent()
         {
@@ -79,7 +80,6 @@ namespace NakaEngine
         protected override void Update(GameTime gameTime)
         {
             InputSystem.Update();
-            KeybindSystem.Update(ref InputSystem.CurrentKeyboardState, ref InputSystem.OldKeyboardState);
 
             CurrentMusic.Play();
 
@@ -90,7 +90,7 @@ namespace NakaEngine
         {
             RenderSystem.Render(SpriteBatch);
 
-            base.Draw(gameTime); 
+            base.Draw(gameTime);
         }
 
         private void LoadAssets()

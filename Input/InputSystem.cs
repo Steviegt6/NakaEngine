@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NakaEngine.Input
 {
-    public static class InputSystem 
+    public class InputSystem 
     {
         public static KeyboardState CurrentKeyboardState;
 
@@ -27,6 +27,8 @@ namespace NakaEngine.Input
 
             OldMousePosition = MousePosition;
             MousePosition = new Vector2(CurrentMouseState.X, CurrentMouseState.Y);
+
+            KeybindSystem.Update(ref CurrentKeyboardState, ref OldKeyboardState);
         }
 
         public static bool JustLeftClicked => CurrentMouseState.LeftButton == ButtonState.Pressed && OldMouseState.LeftButton == ButtonState.Released;

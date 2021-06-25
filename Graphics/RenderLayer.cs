@@ -6,8 +6,6 @@ namespace NakaEngine.Graphics
 {
     public sealed class RenderLayer
     {
-        // TODO - Add the rest of spriteBatch.Begin() params
-
         public string Name;
 
         public RenderTarget2D RenderTarget;
@@ -15,6 +13,14 @@ namespace NakaEngine.Graphics
         public SpriteSortMode SpriteSortMode;
 
         public BlendState BlendState;
+
+        public SamplerState SamplerState;
+
+        public DepthStencilState DepthStencilState;
+
+        public RasterizerState RasterizerState;
+
+        public Effect Effect;
 
         public int Width;
 
@@ -35,23 +41,18 @@ namespace NakaEngine.Graphics
             RenderTarget = new RenderTarget2D(NakaEngine.Instance.GraphicsDevice, width, height);
         }
 
-        public RenderInfo AddInfo(Texture2D texture, Vector2 position, Rectangle? sourceRectangle = null, Color? color = null, float rotation = 0f, Vector2 origin = default, Vector2? scale = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
+        public RenderInfo AddInfo(RenderInfo info, SpriteSortMode spriteSortMode, BlendState blendState, SamplerState samplerState, DepthStencilState depthStencilState, RasterizerState rasterizerState, Effect effect)
         {
-            Color infoColor = color ?? Color.White;
-            scale ??= Vector2.One;
-
-            RenderInfo info = new(texture, position, sourceRectangle, infoColor, rotation, origin, scale ?? Vector2.One, effects, layerDepth);
-
             renderInfo.Add(info);
+
+            SpriteSortMode = spriteSortMode;
+            BlendState = blendState;
+            SamplerState = samplerState;
+            DepthStencilState = depthStencilState;
+            RasterizerState = rasterizerState;
+            Effect = effect;
 
             return info; 
-        }
-
-        public RenderInfo AddInfo(RenderInfo info)
-        {
-            renderInfo.Add(info);
-
-            return info;
         }
 
         public void Draw(GraphicsDevice device, SpriteBatch spriteBatch)
@@ -59,7 +60,7 @@ namespace NakaEngine.Graphics
             device.SetRenderTarget(RenderTarget);
             device.Clear(Color.Transparent);
             
-            spriteBatch.Begin(SpriteSortMode, BlendState, default, default, default, default, NakaEngine.Instance.MainCamera.Transform);
+            spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, RasterizerState, Effect, NakaEngine.Instance.MainCamera.Transform);
 
             foreach (RenderInfo info in renderInfo)
             {

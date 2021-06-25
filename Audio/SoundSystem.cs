@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace NakaEngine.Audio
 {
-    public static class SoundSystem 
+    public class SoundSystem 
     {
         public static SoundEffectInstance PlaySound(SoundEffect effect, float volume = 1f, float pitch = 0f, float pan = 0f)
         {

@@ -21,15 +21,15 @@ namespace NakaEngine.Graphics
         public readonly float LayerDepth;
 
 
-        public RenderInfo(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
+        public RenderInfo(Texture2D texture, Vector2 position, Rectangle? sourceRectangle = null, Color? color = null, float rotation = 0f, Vector2 origin = default, Vector2? scale = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
         {
             Texture = texture;
             Position = position;
             Origin = origin;
-            Scale = scale;
+            Scale = scale ?? Vector2.One;
             Effects = effects;
-            Color = color;
-            SourceRectangle = sourceRectangle;
+            Color = color ?? Color.White;
+            SourceRectangle = sourceRectangle ?? texture.Bounds;
             Rotation = rotation;
             LayerDepth = layerDepth; 
         } 

@@ -6,34 +6,39 @@ namespace NakaEngine.Utilities.Extensions
 {
     public static class ReflectionExtensions
     {
-        public static Type[] GetInheritedTypes(this Assembly assembly, Type type) => assembly.GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(type)).ToArray();
+        /// <summary>
+        /// Returns an array of all types in an <see cref="Assembly"/> inherited by a <see cref="Type"/>
+        /// </summary>
+        public static Type[] GetInheritedTypes(this Assembly assembly, Type inheritedType) => assembly.GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(inheritedType)).ToArray();
 
-        public static Type[] GetInheritedTypes<T>(this Assembly assembly) where T : Type => assembly.GetInheritedTypes(typeof(T));
+        /// <summary>
+        /// Returns an array of all types in an <see cref="Assembly"/> inherited by the type <paramref name="T"/>.
+        /// </summary>
+        public static Type[] GetInheritedTypes<T>(this Assembly assembly) where T : class => assembly.GetInheritedTypes(typeof(T));
 
+        /// <summary>
+        /// Returns an array of all types in an <see cref="Assembly"/> inherited by an interface with type.
+        /// </summary>
         public static Type[] GetInheritedInterfaceTypes(this Assembly assembly, Type interfaceType) => assembly.GetTypes().Where(type => !type.IsAbstract && type.GetInterfaces().Contains(interfaceType)).ToArray();
 
-        public static Type[] GetInheritedInterfaceTypes<T>(this Assembly assembly) where T : Type => assembly.GetInheritedInterfaceTypes(typeof(T));
+        /// <summary>
+        /// Returns an array of all types in an <see cref="Assembly"/> inherited by an interface with type <typeparamref name="T"/>
+        /// </summary>
+        public static Type[] GetInheritedInterfaceTypes<T>(this Assembly assembly) where T : class => assembly.GetInheritedInterfaceTypes(typeof(T));
 
+        /// <summary>
+        /// Returns whether a <see cref="Type"/> inherits from an interface with type or not.
+        /// </summary>
         public static bool HasInterface(this Type type, Type interfaceType) => type.GetInterfaces().Contains(interfaceType);
 
+        /// <summary>
+        /// Returns whether a <see cref="Type"/> inherits from an interface with type or not.
+        /// </summary>
         public static bool HasInterface<T>(this Type type) where T : class => type.HasInterface(typeof(T));
 
+        /// <summary>
+        /// Returns whether a <see cref="Type"/> has an empty constructor or not.
+        /// </summary>
         public static bool HasEmptyConstructor(this Type type) => type.GetConstructor(Type.EmptyTypes) != null;
-
-        /*
-        public static bool HasEmptyConstructor(this Type type, out ConstructorInfo? constructor) => (constructor = type.GetConstructor(Type.EmptyTypes)) != null;
-
-        public static bool HasAttribute<T>(this Type type) where T : Attribute => type.GetCustomAttribute<T>() != null;
-
-        public static bool HasAttribute<T>(this Type type, out T? attribute) where T : Attribute => (attribute = type.GetCustomAttribute<T>()) != null;
-
-        public static T CreateDelegate<T>(this MethodInfo method) where T : Delegate => (T)Delegate.CreateDelegate(typeof(T), method);
-
-        public static T CreateDelegate<T>(this MethodInfo method, object? firstArg = null) where T : Delegate => (T)Delegate.CreateDelegate(typeof(T), firstArg, method);      
-
-        public static MethodInfo? GetMethod(this Type type, string name, BindingFlags flags, Type[] types) => type.GetMethod(name, flags, null, types, null);
-
-        public static ConstructorInfo? GetConstructor(this Type type, BindingFlags flags, Type[] types) => type.GetConstructor(flags, null, types, null);
-        */
     } 
 }

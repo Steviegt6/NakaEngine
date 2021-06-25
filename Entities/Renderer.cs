@@ -31,7 +31,7 @@ namespace NakaEngine.Entities
         {
             Info = new RenderInfo(Texture, GameObject.Transform.Position, SourceRectangle, Color, GameObject.Transform.Rotation, SourceRectangle.GetCenter(), GameObject.Transform.Scale, Effects, 0f);
 
-            RenderSystem.GetLayer("Entities").AddInfo(Info);
+            RenderSystem.GetLayer("Entities").AddInfo(Info, default, default, default, default, default, default);
         }
     }
 }
