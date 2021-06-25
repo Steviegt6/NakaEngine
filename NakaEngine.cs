@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
+using NakaEngine.Audio;
 using NakaEngine.Entities;
 using NakaEngine.Graphics;
 using NakaEngine.Input;
@@ -16,13 +16,9 @@ namespace NakaEngine
         /*===============================================================================   
          *   Major priorities
          *   
-         * - Music system, transitions should be smooth for better ambience overall.
-         * 
          * - Animated renderers, animations are not mandatory but definitely important.
          * 
          * - Scenes and tiles, cant play if there's no map.
-         * 
-         * - Character, cant play if you dont exist.
          * 
          * - As much as its private use, documentation would be nice.
          ===============================================================================*/
@@ -89,7 +85,7 @@ namespace NakaEngine
             Instance = null;
 
             base.UnloadContent();
-        } 
+        }
 
         protected override void Update(GameTime gameTime)
         {
@@ -114,7 +110,6 @@ namespace NakaEngine
             new AssetLoader<Effect>(".xnb").Load(Content.RootDirectory);
 
             new AssetLoader<SoundEffect>(".wav").Load(Content.RootDirectory);
-            new AssetLoader<Song>(".ogg").Load(Content.RootDirectory);
         }
     }
 }

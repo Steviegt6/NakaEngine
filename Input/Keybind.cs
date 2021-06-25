@@ -5,35 +5,13 @@ namespace NakaEngine.Input
 {
     public sealed class Keybind
     {
-        public Keys Key
-        {
-            get;
-            set;
-        }
+        public Keys Key;
 
-        public bool IsKeyDown
-        {
-            get;
-            set;
-        }
+        public bool IsKeyDown;
 
-        public bool JustPressed
-        {
-            get;
-            set;
-        }
+        public bool JustPressed;
 
-        public bool JustReleased
-        {
-            get;
-            set;
-        }
-
-        public int ID
-        {
-            get;
-            set;
-        }
+        public bool JustReleased;
 
         public event Action OnPress;
 

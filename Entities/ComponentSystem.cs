@@ -6,15 +6,11 @@ namespace NakaEngine.Entities
 {
     public sealed class ComponentSystem 
     {
-        public static List<Component> Components
-        {
-            get;
-            private set;
-        } = new();
+        private static List<Component> components = new();
 
         internal static void Update(GameTime gameTime)
         {
-            foreach (Component component in Components.Where(component => component.Active))
+            foreach (Component component in components.Where(component => component.Active))
             {
                 component.Update(gameTime);
             }

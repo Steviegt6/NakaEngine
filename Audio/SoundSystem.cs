@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace NakaEngine.Audio
 {
-    public static class AudioSystem 
+    public static class SoundSystem 
     {
+        // TODO - Music updating and transitions
+
         public static SoundEffectInstance PlaySound(SoundEffect effect, float volume = 1f, float pitch = 0f, float pan = 0f)
         {
             SoundEffectInstance instance = effect.CreateInstance();

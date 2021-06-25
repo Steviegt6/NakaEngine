@@ -6,47 +6,21 @@ namespace NakaEngine.Graphics
 {
     public sealed class RenderLayer
     {
-        public string Name
-        {
-            get;
-            private set;
-        }
+        // TODO - Add the rest of spriteBatch.Begin() params
 
-        public RenderTarget2D RenderTarget
-        {
-            get;
-            private set;
-        }
+        public string Name;
 
-        public SpriteSortMode SpriteSortMode
-        {
-            get;
-            private set;
-        }
+        public RenderTarget2D RenderTarget;
 
-        public BlendState BlendState 
-        {
-            get;
-            private set;
-        }
+        public SpriteSortMode SpriteSortMode;
 
-        public int Width
-        {
-            get;
-            private set;
-        }
+        public BlendState BlendState;
 
-        public int Height
-        {
-            get;
-            private set;
-        }
+        public int Width;
 
-        public List<RenderInfo> Info
-        {
-            get;
-            private set;
-        } = new();
+        public int Height;
+
+        private readonly List<RenderInfo> renderInfo;
 
         public RenderLayer(string name, int width, int height)
         {
@@ -68,14 +42,14 @@ namespace NakaEngine.Graphics
 
             RenderInfo info = new(texture, position, sourceRectangle, infoColor, rotation, origin, scale ?? Vector2.One, effects, layerDepth);
 
-            Info.Add(info);
+            renderInfo.Add(info);
 
             return info; 
         }
 
         public RenderInfo AddInfo(RenderInfo info)
         {
-            Info.Add(info);
+            renderInfo.Add(info);
 
             return info;
         }
@@ -87,14 +61,14 @@ namespace NakaEngine.Graphics
             
             spriteBatch.Begin(SpriteSortMode, BlendState, default, default, default, default, NakaEngine.Instance.MainCamera.Transform);
 
-            foreach (RenderInfo info in Info)
+            foreach (RenderInfo info in renderInfo)
             {
                 spriteBatch.Draw(info.Texture, info.Position, info.SourceRectangle, info.Color, info.Rotation, info.Origin, info.Scale, info.Effects, info.LayerDepth);
             }
 
             spriteBatch.End();
 
-            Info.Clear();
+            renderInfo.Clear();
         }
 
         public void ResetRenderTarget()

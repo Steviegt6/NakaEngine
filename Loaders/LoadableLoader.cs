@@ -7,11 +7,7 @@ namespace NakaEngine.Loaders
 {
     public static class LoadableLoader
     {
-        private static List<ILoadable> LoadCache
-        {
-            get;
-            set;
-        } = new();
+        private static List<ILoadable> loadCache = new();
 
         public static void Load()
         {
@@ -22,19 +18,19 @@ namespace NakaEngine.Loaders
                     ILoadable loadable = Activator.CreateInstance(type) as ILoadable;
                     loadable.Load();
 
-                    LoadCache.Add(loadable);
+                    loadCache.Add(loadable);
                 }
             }
         }
 
         public static void Unload()
         {
-            foreach (ILoadable loadable in LoadCache)
+            foreach (ILoadable loadable in loadCache)
             {
                 loadable.Unload();
             }
 
-            LoadCache.Clear();
+            loadCache.Clear();
         }
     }
 }

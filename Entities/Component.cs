@@ -2,27 +2,17 @@
 
 namespace NakaEngine.Entities
 {
-    ///<summary>Stores info for a GameObject.</summary>
     public class Component
     {
-        public bool Active
-        {
-            get;
-            set;
-        }
+        public bool Active;
 
-        /// <summary>The GameObject this component is attatched to.</summary>
-        public GameObject GameObject
-        {
-            get;
-            set;
-        }
+        public GameObject GameObject;
 
         public Component()
         {
             Initialize();
 
-            ComponentSystem.Components.Add(this);
+            ComponentSystem.components.Add(this);
         }
 
         public virtual void Initialize() { }

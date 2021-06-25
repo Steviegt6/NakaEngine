@@ -6,15 +6,11 @@ namespace NakaEngine.Input
 {
     public static class KeybindSystem
     {
-        private static List<Keybind> Keybinds
-        {
-            get;
-            set;
-        } = new();
+        private static List<Keybind> keybinds = new();
 
         public static Keybind RegisterKeybind(Keybind keybind)
         {
-            Keybinds.Add(keybind);
+            keybinds.Add(keybind);
 
             return keybind;
         }
@@ -33,7 +29,7 @@ namespace NakaEngine.Input
 
         internal static void Update(ref KeyboardState currentState, ref KeyboardState oldState)
         {
-            foreach (Keybind keybind in Keybinds)
+            foreach (Keybind keybind in keybinds)
             {
                 keybind.Update(currentState.IsKeyDown(keybind.Key), oldState.IsKeyDown(keybind.Key));
             }

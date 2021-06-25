@@ -9,30 +9,26 @@ namespace NakaEngine.Graphics
 {
     public sealed class RenderSystem : ILoadable
     {
-        public static List<RenderLayer> Layers
-        {
-            get;
-            private set;
-        } = new();
+        private static List<RenderLayer> layers;
 
         public void Load()
         {
-            Layers.Add(new RenderLayer("Backgrounds", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
-            Layers.Add(new RenderLayer("Entities", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
+            layers.Add(new RenderLayer("Backgrounds", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
+            layers.Add(new RenderLayer("Entities", DrawUtils.ScreenWidth, DrawUtils.ScreenHeight));
         }
 
-        public void Unload() => Layers.Clear();
+        public void Unload() => layers.Clear();
 
         internal static void Render(SpriteBatch spriteBatch)
         {
-            foreach (RenderLayer layer in Layers) 
+            foreach (RenderLayer layer in layers) 
             {
                 layer.Draw(spriteBatch.GraphicsDevice, spriteBatch);
             }
 
             spriteBatch.GraphicsDevice.SetRenderTarget(null);
 
-            foreach (RenderLayer layer in Layers) 
+            foreach (RenderLayer layer in layers) 
             {
                 spriteBatch.Begin();
 
@@ -44,12 +40,12 @@ namespace NakaEngine.Graphics
 
         internal static void Reset()
         {
-            foreach (RenderLayer layer in Layers)
+            foreach (RenderLayer layer in layers)
             {
                 layer.ResetRenderTarget();
             }
         }
 
-        public static RenderLayer GetLayer(string name) => Layers.FirstOrDefault(layer => layer.Name == name);
+        public static RenderLayer GetLayer(string name) => layers.FirstOrDefault(layer => layer.Name == name);
     }
 }
