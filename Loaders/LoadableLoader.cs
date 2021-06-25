@@ -11,15 +11,12 @@ namespace NakaEngine.Loaders
 
         public static void Load()
         {
-            foreach (Type type in NakaEngine.Assembly.GetTypes())
+            foreach (Type type in NakaEngine.Assembly.GetInheritedInterfaceTypes(typeof(ILoadable)))
             {
-                if (!type.IsAbstract && type.HasInterface<ILoadable>())
-                {
-                    ILoadable loadable = Activator.CreateInstance(type) as ILoadable;
-                    loadable.Load();
+                ILoadable loadable = Activator.CreateInstance(type) as ILoadable;
+                loadable.Load();
 
-                    loadCache.Add(loadable);
-                }
+                loadCache.Add(loadable);
             }
         }
 

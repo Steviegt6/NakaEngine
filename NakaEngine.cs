@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using NakaEngine.Audio;
-using NakaEngine.Entities;
 using NakaEngine.Graphics;
 using NakaEngine.Input;
 using NakaEngine.Loaders;
@@ -20,32 +19,22 @@ namespace NakaEngine
          * 
          * - Scenes and tiles, cant play if there's no map.
          * 
+         * - Shaders/effects.
+         * 
          * - As much as its private use, documentation would be nice.
+         * 
+         * - User Interface.
          ===============================================================================*/
 
-        public static NakaEngine Instance
-        {
-            get;
-            private set;
-        }
+        public static NakaEngine Instance;
 
-        public GraphicsDeviceManager Graphics
-        {
-            get;
-            private set;
-        }
+        public GraphicsDeviceManager Graphics;
 
-		public SpriteBatch SpriteBatch
-        {
-            get;
-            private set;
-        }
+        public SpriteBatch SpriteBatch;
 
-        public Camera MainCamera
-        {
-            get;
-            private set;
-        }
+        public Camera MainCamera;
+
+        public Music CurrentMusic;
 
         [ThreadStatic] 
         private static Random _random;
@@ -69,12 +58,12 @@ namespace NakaEngine
         {
             LoadableLoader.Load();
 
-            SpriteBatch = new SpriteBatch(Graphics.GraphicsDevice);
-            MainCamera = new Camera();
+            SpriteBatch = new(Graphics.GraphicsDevice);
+            MainCamera = new();
+
+            CurrentMusic = new("Assets/Sounds/Music/Placeholder.ogg");
 
             LoadAssets();
-
-            base.LoadContent();
 		}
 
         protected override void UnloadContent()
@@ -92,7 +81,7 @@ namespace NakaEngine
             InputSystem.Update();
             KeybindSystem.Update(ref InputSystem.CurrentKeyboardState, ref InputSystem.OldKeyboardState);
 
-            ComponentSystem.Update(gameTime);
+            CurrentMusic.Play();
 
             base.Update(gameTime);
         }

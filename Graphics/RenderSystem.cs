@@ -9,7 +9,7 @@ namespace NakaEngine.Graphics
 {
     public sealed class RenderSystem : ILoadable
     {
-        private static List<RenderLayer> layers;
+        private static List<RenderLayer> layers = new();
 
         public void Load()
         {

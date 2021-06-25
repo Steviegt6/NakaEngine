@@ -11,17 +11,11 @@ namespace NakaEngine.Audio
 
         private readonly VorbisReader reader;
 
-        private readonly int channels;
-        private readonly int sampleRate;
-
         public Music(string path)
         {
             reader = new VorbisReader(path);
             
-            channels = reader.Channels;
-            sampleRate = reader.SampleRate;
-
-            instance = new DynamicSoundEffectInstance(sampleRate, (AudioChannels)channels);         
+            instance = new DynamicSoundEffectInstance(reader.SampleRate, (AudioChannels)reader.Channels);
         }
 
         public void Play()

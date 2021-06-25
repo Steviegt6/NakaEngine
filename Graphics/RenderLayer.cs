@@ -20,7 +20,7 @@ namespace NakaEngine.Graphics
 
         public int Height;
 
-        private readonly List<RenderInfo> renderInfo;
+        private readonly List<RenderInfo> renderInfo = new();
 
         public RenderLayer(string name, int width, int height)
         {
