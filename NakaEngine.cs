@@ -1,53 +1,28 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using NakaEngine.Audio;
-using NakaEngine.Graphics;
-using NakaEngine.Input;
-using NakaEngine.Loaders;
+using NakaEngine.Core;
+using NakaEngine.Core.Interfaces;
+using NakaEngine.Core.Loaders;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace NakaEngine
 {
     public sealed class NakaEngine : Game
-    {
-        /*===============================================================================   
-         *   Major priorities
-         *   
-         * - Animated renderers, animations are not mandatory but definitely important.
-         * 
-         * - Scenes and tiles, cant play if there's no map.
-         * 
-         * - Shaders/effects.
-         * 
-         * - As much as its private use, documentation would be nice.
-         * 
-         * - User Interface.
-         ===============================================================================*/
-
-        public static NakaEngine Instance;
+    { 
+        public static Assembly Assembly => Assembly.GetExecutingAssembly();
 
         public GraphicsDeviceManager Graphics;
 
         public SpriteBatch SpriteBatch;
 
-        public Camera MainCamera;
-
-        public Music CurrentMusic;
-
-        [ThreadStatic]
-        private static Random _random;
-
-        public static Random Random => _random ??= new();
-
-        public static Assembly Assembly => Assembly.GetExecutingAssembly();
+        private readonly List<ILoadable> loadables = new();
 
         public NakaEngine() : base()
         {
-            Instance = this;
-
-            Graphics = new GraphicsDeviceManager(Instance);
+            Graphics = new(this);
 
             Content.RootDirectory = "Assets";
 
@@ -56,49 +31,51 @@ namespace NakaEngine
 
         protected override void LoadContent()
         {
-            LoadableLoader.Load();
+            SpriteBatch = new(GraphicsDevice);
 
-            SpriteBatch = new(Graphics.GraphicsDevice);
-            MainCamera = new();
+            LoadLoadables();
 
-            CurrentMusic = new("Assets/Sounds/Music/Placeholder.ogg");
-            CurrentMusic.SetVolume(0.5f);
-
-            LoadAssets();
+            base.LoadContent();
         }
 
         protected override void UnloadContent()
         {
-            LoadableLoader.Unload();
-            Content.Unload();
-
-            Instance = null;
+            UnloadLoadables();
 
             base.UnloadContent();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            InputSystem.Update();
-
-            CurrentMusic.Play();
+            SingletonManager.GetSingleton<GameSystemLoader>().Update(gameTime);
 
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
+        private void LoadLoadables()
         {
-            RenderSystem.Render(SpriteBatch);
+            foreach (Type type in Assembly.GetTypes())
+            {
+                if (!type.IsAbstract && type.GetInterfaces().Contains(typeof(ILoadable)))
+                {
+                    ILoadable loadable = Activator.CreateInstance(type) as ILoadable;
+                    loadable.Load();
 
-            base.Draw(gameTime);
+                    loadables.Add(loadable);
+
+                    SingletonManager.Register(loadable);
+                }
+            }
         }
 
-        private void LoadAssets()
+        private void UnloadLoadables()
         {
-            new AssetLoader<Texture2D>(".png").Load(Content.RootDirectory);
-            new AssetLoader<Effect>(".xnb").Load(Content.RootDirectory);
+            foreach (ILoadable loadable in loadables)
+            {
+                loadable.Unload();
+            }
 
-            new AssetLoader<SoundEffect>(".wav").Load(Content.RootDirectory);
+            loadables.Clear();
         }
     }
 }

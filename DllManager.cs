@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -45,7 +46,7 @@ namespace NakaEngine
 				_ => "64",
 			};
 
-			var stringComparer = StringComparer.InvariantCultureIgnoreCase;
+			StringComparer stringComparer = StringComparer.InvariantCultureIgnoreCase;
 
 			bool StringNullOrEqual(string a, string b) => a == null || stringComparer.Equals(a, b);
 
@@ -60,16 +61,16 @@ namespace NakaEngine
 
 				XElement root = XElement.Load(configPath);
 
-				var maps = root
+				IEnumerable<XElement> maps = root
 					.Elements("dllmap")
 					.Where(element => stringComparer.Equals(element.Attribute("dll")?.Value, name))
 					.Where(element => StringNullOrEqual(element.Attribute("os")?.Value, osString))
 					.Where(element => StringNullOrEqual(element.Attribute("cpu")?.Value, cpuString))
 					.Where(element => StringNullOrEqual(element.Attribute("wordsize")?.Value, wordSizeString));
 
-				var map = maps.SingleOrDefault();
+				XElement map = maps.SingleOrDefault();
 
-				if(map == null) 
+				if (map == null) 
 				{
 					throw new ArgumentException($"'{Path.GetFileName(configPath)}' - Found {maps.Count()} possible mapping candidates for dll '{name}'.");
 				}
