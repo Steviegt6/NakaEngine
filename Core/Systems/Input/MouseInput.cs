@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NakaEngine.Core.Systems.Input
 {
-    public class MouseInputSystem : GameSystem
+    public class MouseInput : GameSystem
     {
         public static Vector2 MousePosition;
 

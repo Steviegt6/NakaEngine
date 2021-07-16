@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using NakaEngine.Core;
 using System;
 using System.Reflection;
 

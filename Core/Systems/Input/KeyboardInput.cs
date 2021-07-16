@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NakaEngine.Core.Systems.Input
 {
-    public class KeyboardInputSystem : GameSystem
+    public class KeyboardInput : GameSystem
     {
         public static KeyboardState CurrentKeyboardState;
 

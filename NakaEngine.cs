@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using NakaEngine.Core;
 using NakaEngine.Core.Interfaces;
 using NakaEngine.Core.Loaders;
+using NakaEngine.Core.Logging;
+using NakaEngine.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,28 +12,34 @@ using System.Reflection;
 
 namespace NakaEngine
 {
-    public sealed class NakaEngine : Game
-    { 
+    public class NakaEngine : Game
+    {
         public static Assembly Assembly => Assembly.GetExecutingAssembly();
+
+        public static NakaEngine Instance;
 
         public GraphicsDeviceManager Graphics;
 
         public SpriteBatch SpriteBatch;
 
-        private readonly List<ILoadable> loadables = new();
+        public Logger Logger;
+
+        private List<ILoadable> loadables;
 
         public NakaEngine() : base()
         {
-            Graphics = new(this);
+            Instance = this;
+            Graphics = new(Instance);
 
             Content.RootDirectory = "Assets";
-
-            IsMouseVisible = true;
         }
 
         protected override void LoadContent()
         {
             SpriteBatch = new(GraphicsDevice);
+
+            Logger = new(@"Logs/engine-logs.txt");
+            Logger.Configurate();
 
             LoadLoadables();
 
@@ -47,24 +55,29 @@ namespace NakaEngine
 
         protected override void Update(GameTime gameTime)
         {
-            SingletonManager.GetSingleton<GameSystemLoader>().Update(gameTime);
+            InstanceManager.GetInstance<GameSystemLoader>().Update(gameTime);
 
             base.Update(gameTime);
         }
 
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.Transparent);
+
+            base.Draw(gameTime);
+        }
+
         private void LoadLoadables()
         {
-            foreach (Type type in Assembly.GetTypes())
+            loadables = new();
+
+            foreach (Type type in Assembly.GetTypesWithInterface<ILoadable>().Where(type => !type.IsAbstract))
             {
-                if (!type.IsAbstract && type.GetInterfaces().Contains(typeof(ILoadable)))
-                {
-                    ILoadable loadable = Activator.CreateInstance(type) as ILoadable;
-                    loadable.Load();
+                ILoadable loadable = Activator.CreateInstance(type) as ILoadable;
+                loadable.Load();
+                loadables.Add(loadable);
 
-                    loadables.Add(loadable);
-
-                    SingletonManager.Register(loadable);
-                }
+                InstanceManager.Register(loadable);
             }
         }
 

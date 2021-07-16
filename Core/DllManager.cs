@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
-namespace NakaEngine
+namespace NakaEngine.Core
 {
     internal static class DllManager
 	{
