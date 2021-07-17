@@ -21,7 +21,7 @@ namespace NakaEngine.Core.Loaders
             LoadAllAssets<Texture2D>(path, ".png");
             LoadAllAssets<SoundEffect>(path, ".wav");
 
-            NakaEngine.Instance.Logger.Log($"All assets have been loaded! (Total {assets.Count})"); 
+            NakaEngine.Instance.Logger.Log($"All assets found have been loaded!"); 
         }
 
         private static void LoadAllAssets<T>(string path, params string[] extensions) where T : class
@@ -41,6 +41,13 @@ namespace NakaEngine.Core.Loaders
                 {
                     LoadAsset<T>(file);
                 }
+            }
+
+            string[] rootFiles = Directory.GetFiles(path);
+
+            foreach (string file in rootFiles.Where(file => extensions.Any(element => file.EndsWith(element))))
+            {
+                LoadAsset<T>(file);
             }
         }
 
