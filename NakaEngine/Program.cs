@@ -1,19 +1,15 @@
-﻿using Microsoft.Xna.Framework;
-using NakaEngine.Core;
-using System;
-using System.Reflection;
+﻿using System;
 
 namespace NakaEngine
 {
-    internal static class Program
+    public static class Program
 	{
 		[STAThread] 
-		internal static void Main(string[] args)
+		public static void Main()
 		{
-			DllManager.AttachResolver(Assembly.GetExecutingAssembly());
-			DllManager.AttachResolver(Assembly.GetAssembly(typeof(Game)));
+			Bootstrap.Initialize_FNA();
 
-			NakaEngine engine = new();
+            NakaEngine engine = new();
             engine.Run();
         }
 	}

@@ -5,11 +5,16 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>NakaEngine</AssemblyName>
     <RootNamespace>NakaEngine</RootNamespace>
+    <DefineConstants>FNA</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="fnalibs" Version="21.7.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FNA\FNA.csproj" />
