@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FNA\**" />
+    <EmbeddedResource Remove="FNA\**" />
+    <None Remove="FNA\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="FNA">
       <HintPath>References\FNA.dll</HintPath>
     </Reference>
