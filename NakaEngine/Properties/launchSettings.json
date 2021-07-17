@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NakaEngine": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}
