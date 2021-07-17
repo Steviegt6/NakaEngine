@@ -30,8 +30,6 @@ namespace NakaEngine
         {
             Instance = this;
             Graphics = new(Instance);
-
-            Content.RootDirectory = "Assets";
         }
 
         protected override void LoadContent()
@@ -71,6 +69,8 @@ namespace NakaEngine
         {
             loadables = new();
 
+            Logger.Log("Loading loadables...");
+
             foreach (Type type in Assembly.GetTypesWithInterface<ILoadable>().Where(type => !type.IsAbstract))
             {
                 ILoadable loadable = Activator.CreateInstance(type) as ILoadable;
@@ -78,17 +78,27 @@ namespace NakaEngine
                 loadables.Add(loadable);
 
                 InstanceManager.Register(loadable);
+
+                Logger.Log($"Loadable loaded: {loadable.GetType().Name}");
             }
+
+            Logger.Log("All loadables found have been loaded!");
         }
 
         private void UnloadLoadables()
         {
+            Logger.Log("Unloading loadables...");
+
             foreach (ILoadable loadable in loadables)
             {
                 loadable.Unload();
+
+                Logger.Log($"Loadable unloaded: {loadable.GetType().Name}");
             }
 
             loadables.Clear();
+
+            Logger.Log("All loadables found have been unloaded!");
         }
     }
 }

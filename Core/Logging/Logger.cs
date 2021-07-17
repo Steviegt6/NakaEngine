@@ -29,8 +29,9 @@ namespace NakaEngine.Core.Logging
             }
 
             string time = DateTime.UtcNow.ToLongTimeString();
+            string assembly = GetType().Assembly.GetName().Name;
 
-            writer.WriteLine($"[{time}] [{logType}]: {message}");
+            writer.WriteLine($"[{time}] [{assembly}] [{logType}]: {message}");
             writer.Flush();
         }
 

@@ -9,10 +9,14 @@ namespace NakaEngine.Core.Systems.Input
 
         public static KeyboardState OldKeyboardState;
 
+        public static bool JustPressedKey(Keys key) => CurrentKeyboardState.IsKeyDown(key) && !OldKeyboardState.IsKeyDown(key);
+
+        public static bool IsKeyDown(Keys key) => CurrentKeyboardState.IsKeyDown(key);
+
         public override void Update(GameTime gameTime)
         {
-            CurrentKeyboardState = Keyboard.GetState();
             OldKeyboardState = CurrentKeyboardState;
+            CurrentKeyboardState = Keyboard.GetState();
         }
     }
 }

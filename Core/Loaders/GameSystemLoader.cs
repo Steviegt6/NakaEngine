@@ -23,19 +23,27 @@ namespace NakaEngine.Core.Loaders
                 systems.Add(system);
 
                 InstanceManager.Register(system);
+
+                NakaEngine.Instance.Logger.Log($"System loaded: {system.GetType().Name}");
             }
 
-            NakaEngine.Instance.Logger.Log($"All systems have been loaded! (Total {systems.Count})");
+            NakaEngine.Instance.Logger.Log($"All systems found have been loaded!");
         }
 
         public void Unload()
         {
+            NakaEngine.Instance.Logger.Log("Unloading systems...");
+
             foreach (GameSystem system in systems)
             {
                 system.Unload();
+
+                NakaEngine.Instance.Logger.Log($"System unloaded: {system.GetType().Name}");
             }
 
             systems.Clear();
+
+            NakaEngine.Instance.Logger.Log("All systems found have been unloaded!");
         }
 
         public void Update(GameTime gameTime)
